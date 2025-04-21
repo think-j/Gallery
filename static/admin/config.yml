@@ -1,0 +1,81 @@
+backend:
+  name: git-gateway
+  branch: main # Or whatever branch you're using
+
+# Cloudinary Media Library configuration
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dvkrqp4yg
+    api_key: 566854716223835
+    default_transformations:
+      - fetch_format: auto
+        quality: auto
+      - width: 800
+        crop: limit
+
+collections:
+  # Site configuration
+  - name: "settings"
+    label: "Settings"
+    files:
+      - name: "home"
+        label: "Homepage"
+        file: "content/_index.md"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Body", name: "body", widget: "markdown"}
+          - {label: "Featured Image", name: "image", widget: "image", required: false}
+      
+      - name: "about"
+        label: "About Page"
+        file: "content/about.md"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Body", name: "body", widget: "markdown"}
+  
+  # Albums (top-level folders)
+  - name: "albums"
+    label: "Albums"
+    folder: "content"
+    create: true
+    filter: {field: "layout", value: "album"}
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Description", name: "body", widget: "markdown", required: false}
+      - {label: "Featured Image", name: "feature", widget: "image", required: false, media_library: {config: {multiple: false}}}
+      - {label: "Layout", name: "layout", widget: "hidden", default: "album"}
+      - label: "Params"
+        name: "params"
+        widget: "object"
+        required: false
+        fields:
+          - {label: "Featured Album", name: "featured", widget: "boolean", default: false, required: false}
+          - {label: "Private Album", name: "private", widget: "boolean", default: false, required: false}
+  
+  # Sub-albums (nested folders)
+  - name: "sub_albums"
+    label: "Sub Albums"
+    folder: "content"
+    path: "{{album}}/{{slug}}"
+    create: true
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Description", name: "body", widget: "markdown", required: false}
+      - {label: "Parent Album", name: "album", widget: "string"}
+      - label: "Resources"
+        name: "resources"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Image", name: "src", widget: "image"}
+          - {label: "Title", name: "title", widget: "string", required: false}
+          - label: "Params"
+            name: "params"
+            widget: "object"
+            required: false
+            fields:
+              - {label: "Cover Image", name: "cover", widget: "boolean", default: false, required: false}
+              - {label: "Weight", name: "weight", widget: "number", required: false}
