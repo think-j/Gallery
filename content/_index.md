@@ -6,5 +6,6 @@ resources:
   - params:
       cover: false
     src: https://pottygenius.com/cdn/shop/articles/istock-166722836-_1_-_converted_-1.jpg?v=1582151761
+image: https://pottygenius.com/cdn/shop/articles/istock-166722836-_1_-_converted_-1.jpg?v=1582151761
 ---
 e﻿jdejde
